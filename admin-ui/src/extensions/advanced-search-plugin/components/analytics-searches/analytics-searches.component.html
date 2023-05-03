@@ -1,0 +1,90 @@
+<div class="btn-group mt4" *ngIf="sorts$ | async as sorts">
+    <button
+        class="btn btn-sm"
+        [class.btn-primary]="isPreset(sorts, 'queryCount', 'DESC')"
+        (click)="setSorts([{ property: 'queryCount', order: 'DESC' }])"
+    >
+        Top searches
+    </button>
+    <button
+        class="btn btn-sm"
+        [class.btn-primary]="isPreset(sorts, 'hitCount', 'ASC')"
+        (click)="setSorts([{ property: 'hitCount', order: 'ASC' }])"
+    >
+        No results
+    </button>
+    <button
+        class="btn btn-sm"
+        [class.btn-primary]="isPreset(sorts, 'clickRate', 'ASC')"
+        (click)="setSorts([{ property: 'clickRate', order: 'ASC' }])"
+    >
+        No clicks
+    </button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Search term</th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="queryCount"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >Search count
+                </vdr-table-sort-toggle>
+            </th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="hitCount"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >Avg. hit count</vdr-table-sort-toggle
+                >
+            </th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="viewRate"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >View rate</vdr-table-sort-toggle
+                >
+            </th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="clickRate"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >Click rate</vdr-table-sort-toggle
+                >
+            </th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="clickPos"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >Avg. click position</vdr-table-sort-toggle
+                >
+            </th>
+            <th>
+                <vdr-table-sort-toggle
+                    property="proportion"
+                    [sorts]="sorts$ | async"
+                    (sortChange)="setSorts($event)"
+                    >Search proportion</vdr-table-sort-toggle
+                >
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of searches$ | async; trackBy: trackByTerm" [class.warning]='highlightFn(row)'>
+            <td class="left">{{ row.query }}</td>
+            <td>{{ row.count }}</td>
+            <td>{{ row.hitCount | number: '1.1-1' }}</td>
+            <td>{{ row.viewRate | percent: '1.1-1' }}</td>
+            <td>{{ row.clickRate | percent: '1.1-1' }}</td>
+            <td>{{ row.clickPos | number: '1.1-1' }}</td>
+            <td>{{ row.proportion | percent: '1.1-1' }}</td>
+        </tr>
+    </tbody>
+</table>

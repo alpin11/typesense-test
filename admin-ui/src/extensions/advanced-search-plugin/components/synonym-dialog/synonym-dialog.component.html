@@ -1,0 +1,36 @@
+<ng-template vdrDialogTitle>Define new synonym</ng-template>
+
+<form [formGroup]='form'>
+    <ng-select
+        formControlName='synonyms'
+        [multiple]='true'
+        [addTag]='true'
+        appendTo='body'
+        [items]='[]'
+        [selectOnTab]='true'
+        [isOpen]='false'
+    ></ng-select>
+
+    <div class='clr-row'>
+        <div class='clr-col-6'>
+            <clr-radio-wrapper>
+                <input type='radio' clrRadio [value]='false' name='oneWay' formControlName='oneWay' />
+                <label>Treat these words as synonyms</label>
+            </clr-radio-wrapper>
+        </div>
+        <div class='clr-col-6'>
+            <clr-radio-wrapper>
+                <input type='radio' clrRadio [value]='true' name='oneWay' formControlName='oneWay'/>
+                <label>Replace these words with:</label>
+            </clr-radio-wrapper>
+            <input type='text' name='root' formControlName='root' />
+        </div>
+    </div>
+</form>
+
+<ng-template vdrDialogButtons>
+    <button type='button' class='btn' (click)='cancel()'>{{ 'common.cancel' | translate }}</button>
+    <button type='submit' (click)='submit()' [disabled]='form.invalid || form.get("synonyms")?.value.length < 2' class='btn btn-primary'>
+        Save
+    </button>
+</ng-template>

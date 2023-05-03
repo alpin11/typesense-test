@@ -1,0 +1,79 @@
+<div class="clr-row">
+    <div class="clr-col-lg-8 clr-col-md-12 clr-col-12">
+        <div class="card">
+            <div class="card-header">
+                Search Weights
+            </div>
+            <div class="card-block">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Enabled</th>
+                            <th>Attribute</th>
+                            <th>Weight</th>
+                            <th>Typo Tolerance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let attribute of searchableAttributes$ | async">
+                            <tr
+                                *ngIf="weightings[attribute.name]"
+                                [class.disabled]="!weightings[attribute.name].enabled"
+                            >
+                                <td>
+                                    <clr-checkbox-wrapper>
+                                        <input
+                                            type="checkbox"
+                                            clrCheckbox
+                                            name="enabled"
+                                            required
+                                            (change)="weightsModified = true"
+                                            [(ngModel)]="weightings[attribute.name].enabled"
+                                        />
+                                    </clr-checkbox-wrapper>
+                                </td>
+                                <td class="left align-middle">
+                                    <small *ngIf='attribute.isCustom' class='mr1'>custom</small>
+                                    <span>{{ attribute.label }}</span>
+                                </td>
+                                <td>
+                                    <input
+                                        clrInput
+                                        name="weight"
+                                        type="number"
+                                        min="1"
+                                        max="100"
+                                        (input)="weightsModified = true"
+                                        [disabled]="!weightings[attribute.name].enabled"
+                                        [(ngModel)]="weightings[attribute.name].weight"
+                                    />
+                                </td>
+                                <td>
+                                    <input
+                                        clrInput
+                                        name="typoTolerance"
+                                        type="number"
+                                        min="0"
+                                        max="2"
+                                        (input)="weightsModified = true"
+                                        [disabled]="!weightings[attribute.name].enabled"
+                                        [(ngModel)]="weightings[attribute.name].typoTolerance"
+                                    />
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <button
+                    class="btn btn-sm btn-primary"
+                    [disabled]="!weightsModified"
+                    (click)="updateWeights()"
+                >
+                    Update weights
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

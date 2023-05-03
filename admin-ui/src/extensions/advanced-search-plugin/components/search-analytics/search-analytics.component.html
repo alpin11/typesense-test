@@ -1,0 +1,33 @@
+<vdr-action-bar>
+    <vdr-ab-left>
+        <div class='flex'>
+            <div class='mr4'>
+                <label>From</label>
+                <vdr-datetime-picker [formControl]='startDate'></vdr-datetime-picker>
+            </div>
+            <div>
+                <label>To</label>
+                <vdr-datetime-picker [formControl]='endDate'></vdr-datetime-picker>
+            </div>
+        </div>
+        <clr-tabs>
+            <clr-tab>
+                <button clrTabLink [routerLink]='["./"]'>
+                    Overview
+                </button>
+                <clr-tab-content *clrIfActive="(activeTab$ | async) === ''">
+                </clr-tab-content>
+            </clr-tab>
+            <clr-tab>
+                <button clrTabLink [routerLink]='["./searches"]' [queryParamsHandling]='"preserve"'>
+                    Searches
+                </button>
+                <clr-tab-content *clrIfActive="(activeTab$ | async) === 'searches'">
+                </clr-tab-content>
+            </clr-tab>
+        </clr-tabs>
+    </vdr-ab-left>
+</vdr-action-bar>
+
+
+<router-outlet></router-outlet>

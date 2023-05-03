@@ -1,0 +1,38 @@
+<clr-tabs>
+    <clr-tab>
+        <button clrTabLink [routerLink]='["./products"]' queryParamsHandling='merge'>
+            Products Index
+        </button>
+        <clr-tab-content *clrIfActive="activeTab === 'products'">
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab *ngFor='let externalIndex of externalIndexes$ | async'>
+        <button clrTabLink [routerLink]='["./external", externalIndex.name]' queryParamsHandling='merge'>
+            {{ externalIndex.name }} Index
+        </button>
+        <clr-tab-content *clrIfActive="activeTab === externalIndex.name">
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink [routerLink]='["./config"]' queryParamsHandling='merge'>
+            Config
+        </button>
+        <clr-tab-content *clrIfActive="activeTab === 'config'">
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink [routerLink]='["./curation"]' queryParamsHandling='merge'>
+            Curation
+        </button>
+        <clr-tab-content *clrIfActive="activeTab === 'curation'">
+        </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink  [routerLink]='["./synonyms"]' queryParamsHandling='merge'>
+            Synonymns
+        </button>
+        <clr-tab-content *clrIfActive="activeTab === 'synonyms'">
+        </clr-tab-content>
+    </clr-tab>
+</clr-tabs>
+<router-outlet></router-outlet>

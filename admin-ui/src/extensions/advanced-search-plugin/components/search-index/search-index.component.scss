@@ -1,0 +1,6 @@
+@import "variables";
+@import "../../styles/mixins";
+
+:host {
+    @include search-index;
+}

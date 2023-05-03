@@ -1,0 +1,5 @@
+<button class="icon-button" (click)='toggle()'>
+    <ng-content></ng-content>
+    <cds-icon shape='arrow' *ngIf='isAsc'></cds-icon>
+    <cds-icon shape='arrow' direction='down' *ngIf='isDesc'></cds-icon>
+</button>

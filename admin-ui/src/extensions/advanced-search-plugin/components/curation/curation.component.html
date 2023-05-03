@@ -1,0 +1,53 @@
+<ng-container *ngIf='curations$ | async as curations'>
+    <ng-container *ngIf='curations.length; else curationPlaceholder'>
+        <div class='card' *ngFor='let curation of curations; trackBy:trackByOverrideName'>
+            <div class='card-header'>When search {{ curation.exactMatch ? 'matches' : 'includes' }}
+                <vdr-chip>"{{ curation.query }}"</vdr-chip>
+            </div>
+            <div class='card-block' *ngFor='let include of curation.includes'>
+                <div class='card-media-block'>
+                    <img [src]='include.productAsset | assetPreview :"tiny" ' class='card-media-image' />
+                    <div class='card-media-description'>
+                        <div>
+                            Set {{ include.productVariantName }} to position
+                            <vdr-chip>#{{ include.position }}</vdr-chip>
+                        </div>
+                        <div>
+                            <button class='btn btn-sm btn-link delete-button'
+                                    (click)='removeInclude(curation, include.id)'>
+                                Remove Rule
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='card-block' *ngFor='let exclude of curation.excludes'>
+                <div class='card-media-block'>
+                    <img [src]='exclude.productAsset | assetPreview :"tiny" ' class='card-media-image' />
+                    <div class='card-media-description'>
+                        Exclude {{ exclude.productVariantName }}
+                        <div>
+                            <button class='btn btn-sm btn-link delete-button'
+                                    (click)='removeExclude(curation, exclude.id)'>
+                                Remove Rule
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='card-footer'>
+                <button class='btn btn-sm btn-danger btn-link delete-button'
+                        (click)='deleteCuration(curation.name)'>
+                    <clr-icon shape='trash' class='is-danger'></clr-icon>
+                    Delete Curation
+                </button>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #curationPlaceholder>
+        <div class='placeholder'>
+            <h1>No curations have been set up yet...</h1>
+        </div>
+    </ng-template>
+</ng-container>

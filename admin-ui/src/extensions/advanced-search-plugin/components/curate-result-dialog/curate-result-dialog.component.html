@@ -1,0 +1,56 @@
+<ng-template vdrDialogTitle>Curate Search Result</ng-template>
+
+<form [formGroup]='form'>
+    <div class='rule-wrapper'>
+        <label>If search term</label>
+        <clr-select-container>
+            <select clrSelect name='match' formControlName='match'>
+                <option value='exact'>matches exactly</option>
+                <option value='contains'>contains</option>
+            </select>
+        </clr-select-container>
+        <div>
+            <input id='term' type='text' formControlName='term' />
+        </div>
+    </div>
+
+    <div class='card'>
+        <div class='card-block'>
+            <div class='card-media-block'>
+                <img [src]='document.productAsset | assetPreview :"tiny" ' class='card-media-image' />
+                <div class='card-media-description'>
+                    {{ document.productVariantName }}
+                </div>
+            </div>
+        </div>
+        <div class='card-footer'>
+            <div class='flex'>
+                <clr-radio-wrapper>
+                    <input type='radio' clrRadio value='include' name='action' formControlName='action' />
+                    <label>Set search position as</label>
+                </clr-radio-wrapper>
+                <input type='number' min='1'
+                       name='position' formControlName='position' />
+            </div>
+        </div>
+        <div class='card-footer'>
+            <clr-radio-wrapper>
+                <input type='radio' clrRadio value='exclude' name='action' formControlName='action' />
+                <label>Exclude from results</label>
+            </clr-radio-wrapper>
+        </div>
+    </div>
+
+</form>
+
+<ng-template vdrDialogButtons>
+    <button type='button' class='btn' (click)='cancel()'>{{ 'common.cancel' | translate }}</button>
+    <button
+        type='submit'
+        (click)='submit()'
+        [disabled]='form.invalid'
+        class='btn btn-primary'
+    >
+        Save
+    </button>
+</ng-template>

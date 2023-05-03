@@ -1,0 +1,64 @@
+<div class='clr-row'>
+    <div class='clr-col-lg-6'>
+        <div class='card'>
+            <div class='card-header'>
+                Total searches
+            </div>
+            <div class='card-block'>
+                <vdr-chart [config]='totalSearches$ | async'></vdr-chart>
+            </div>
+        </div>
+    </div>
+    <div class='clr-col-lg-6'>
+        <div class='card'>
+            <div class='card-header'>
+                No results rate
+            </div>
+            <div class='card-block'>
+                <vdr-chart [config]='noResultRate$ | async'></vdr-chart>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class='clr-row'>
+    <div class='clr-col-lg-6'>
+        <div class='card'>
+            <div class='card-header'>
+                Click through rate
+            </div>
+            <div class='card-block'>
+                <vdr-chart [config]='clickThroughRate$ | async'></vdr-chart>
+            </div>
+        </div>
+    </div>
+    <div class='clr-col-lg-6'>
+        <div class='card'>
+            <div class='card-header'>
+                No click rate
+            </div>
+            <div class='card-block'>
+                <vdr-chart [config]='noClickRate$ | async'></vdr-chart>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='clr-row'>
+    <div class='clr-col-lg-6'>
+        <div class='card'>
+            <div class='card-header'>
+                Avg. click position
+            </div>
+            <div class='card-block'>
+                <vdr-chart [config]='clickPosition$ | async'></vdr-chart>
+            </div>
+        </div>
+    </div>
+    <div class='clr-col-lg-6'>
+    </div>
+</div>
+
+
+

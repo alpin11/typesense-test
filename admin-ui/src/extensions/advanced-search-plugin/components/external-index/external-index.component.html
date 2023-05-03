@@ -1,0 +1,124 @@
+<div class='search-bar'>
+    <div class='flex'>
+        <div>
+            <clr-input-container class='search-query-input'>
+                <label>Search query</label>
+                <input clrInput type='text' [formControl]='term' />
+            </clr-input-container>
+        </div>
+        <div class='prefix-checkbox-wrapper'>
+            <clr-checkbox-wrapper>
+                <input type='checkbox' clrCheckbox name='prefixMode' required [formControl]='prefixMode' />
+                <label
+                >Prefix mode
+                    <vdr-help-tooltip
+                        [content]="'Prefix mode is used for search-as-you-type results'"
+                    ></vdr-help-tooltip>
+                </label>
+            </clr-checkbox-wrapper>
+        </div>
+        <div class='flex-spacer'></div>
+        <div>
+            <button class='btn btn-secondary btn-sm' (click)='reindex()'>Refresh index</button>
+        </div>
+    </div>
+
+    <div class='search-stats'>
+        <div>
+            Total results: <strong>{{ (totalItems$ | async) || 0 }}</strong>
+        </div>
+        <div class='ml2'>
+            Query time: <strong>{{ (searchTimeMs$ | async) || 0 }}ms</strong>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf='externalIndex$ | async as externalIndex'>
+    <div class='clr-row' *ngIf='searchTerm$ | async; else noSearchTerm'>
+        <div
+            class='clr-col-12 clr-col-lg-8 clr-col-xl-9'
+            *ngIf='paginationConfig$ | async as paginationConfig'
+        >
+            <div
+                *ngFor='
+                    let result of results$ | async | paginate: paginationConfig;
+                    trackBy: trackBySearchResult;
+                    index as i
+                '
+                class=''
+            >
+                <div class='card'>
+                    <div class='card-block'>
+                        <div class='search-result-details-wrapper'>
+                            <div class='mr2'>
+                                <span class='search-position'
+                                >#{{
+                                    (paginationConfig.currentPage - 1) * paginationConfig.itemsPerPage +
+                                    i +
+                                    1
+                                    }}</span
+                                >
+                            </div>
+                            <div class='search-result-details'>
+                                <div *ngFor='let highlight of result.highlights'>
+                                    <small class='mr2'>{{ highlight.field }}:</small>
+                                    <span [innerHTML]='highlight.snippet | stripHtml'></span>
+                                </div>
+                                <div *ngFor='let field of externalIndex.fields'>
+                                    <ng-container *ngIf='field.type | isArrayFieldType; else nonArray'>
+                                        <small class='mr2'>{{ field.name }}:</small>
+                                        <span *ngFor='let item of result[field.name]; last as isLast' class='mr2'>
+                                            {{ item }}<ng-container *ngIf='!isLast'>,</ng-container>
+                                        </span>
+                                    </ng-container>
+                                    <ng-template #nonArray>
+                                        <small class='mr2'>{{ field.name }}:</small>
+                                        <span [innerHTML]='result[field.name] | stripHtml | slice: 0:255'></span>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='card-footer flex'>
+                        <div>
+                            <!--                            <ng-container *ngIf="0 < result.score; else curated">-->
+                            <!--                                <button class="btn btn-sm btn-link" (click)="curateResult(result)">-->
+                            <!--                                    Curate this result-->
+                            <!--                                </button>-->
+                            <!--                            </ng-container>-->
+                            <!--                            <ng-template #curated>-->
+                            <!--                                <vdr-chip colorType="success">curated</vdr-chip>-->
+                            <!--                            </ng-template>-->
+                        </div>
+                        <div class='flex-spacer'></div>
+                        <div>
+                            <ng-container *ngIf='0 < result.score'>
+                                <small>score:</small> {{ result.score | number }}
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='pagination'>
+                <vdr-items-per-page-controls
+                    [itemsPerPage]='(paginationConfig$ | async)?.itemsPerPage'
+                    (itemsPerPageChange)='setItemsPerPage($event)'
+                ></vdr-items-per-page-controls>
+
+                <vdr-pagination-controls
+                    [currentPage]='(paginationConfig$ | async)?.currentPage'
+                    [itemsPerPage]='(paginationConfig$ | async)?.itemsPerPage'
+                    [totalItems]='(paginationConfig$ | async)?.totalItems'
+                    (pageChange)='setCurrentPage($event)'
+                ></vdr-pagination-controls>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-template #noSearchTerm>
+    <div class='no-search-term'>
+        <h1>
+            <clr-icon shape='search' size='32'></clr-icon>
+            Enter a search term
+        </h1>
+    </div>
+</ng-template>

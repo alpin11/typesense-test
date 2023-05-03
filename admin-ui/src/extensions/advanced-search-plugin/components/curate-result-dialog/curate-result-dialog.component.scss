@@ -1,0 +1,9 @@
+.rule-wrapper {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    > clr-select-container {
+        margin-bottom: 0px;
+    }
+}
