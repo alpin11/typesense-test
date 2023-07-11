@@ -18,7 +18,7 @@
     "@vendure-plus/advanced-search-plugin": "^0.2.0",
     "@vendure/admin-ui-plugin": "1.9.6",
     "@vendure/asset-server-plugin": "1.9.6",
-    "@vendure/core": "1.9.6",
+    "@vendure/core": "2.0.3",
     "@vendure/email-plugin": "1.9.6",
     "@vendure/ui-devkit": "^1.9.6",
     "dotenv": "16.0.3",
